@@ -1,0 +1,6 @@
+export const LOGIN_BY_UP_PATH_MSG = "/main/login/up"
+export const REGEDIT_PATH_MSG = "/main/regedit"
+export const LOGIN_BY_PHONE_PATH_MSG = "/main/login/phone"
+export const MAIN_INDEX_PATH_MSG = "/index"
+export const MAIN_USERS_PATH_MSG = "/index/users"
+export const MAIN_SELF_PATH_MSG = "/index/self"

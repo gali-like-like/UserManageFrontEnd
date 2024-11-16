@@ -1,15 +1,23 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <router-view></router-view>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import LoginView from "@/view/LoginByUPView.vue";
+
+
+// import LoginRegeditView from "@/view/LoginRegeditView.vue";
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      checked:true,
+      password:''
+    }
+  },
+  mounted() {
+    document.title = "SpringBoot资料网"
   }
 }
 </script>
@@ -21,6 +29,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
