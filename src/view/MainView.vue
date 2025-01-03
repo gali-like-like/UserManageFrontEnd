@@ -1,20 +1,14 @@
 <template>
-  <el-container>
-    <el-header>
-      <el-row :gutter="20" justify="end">
-        <el-col :span="4">
-          <el-link v-if="!isLogin" underline="underline" @click="jumpLoginByUp">请先登录</el-link>
-          <el-link v-if="!isLogin" @click="jumpRegedit" underline="underline">注册</el-link>
-          <el-link v-else>
-            <el-icon>
-              <User/>
-            </el-icon>
-          </el-link>
-        </el-col>
-      </el-row>
+  <el-container class="mainContainer">
+    <el-header class="mainHeader">
+      <div class="leftLoginDiv">
+        <a v-if="!isLogin" @click="jumpLoginByUp" class="loginOrRegisterLink">请先登录</a>
+        <a v-if="!isLogin" @click="jumpRegedit" class="loginOrRegisterLink">注册</a>
+        <div v-else class="userBg" @click="jumpSelfInfo"></div>
+      </div>
     </el-header>
-    <el-container>
-      <el-aside width="200px" style="height:200px">
+    <el-container class="mainContentDiv">
+      <el-aside>
         <el-menu
             active-text-color="#ffd04b"
             background-color="#545c64"
@@ -43,15 +37,12 @@
 <script>
 
 import {LOGIN_BY_UP_PATH_MSG, MAIN_SELF_PATH_MSG, MAIN_USERS_PATH_MSG, REGEDIT_PATH_MSG} from "@/ConstMsg/CommonMsg";
-import {User} from "@element-plus/icons-vue";
 
 export default {
   name: "MainView",
-  components: {User},
   data() {
     return {
       activeIndex:'1',
-      isLogin:true
     };
   },
   methods:{
@@ -66,11 +57,27 @@ export default {
         this.$router.push(MAIN_SELF_PATH_MSG)
       }
     },
+    jumpSelfInfo() {
+      if(this.$store.state.isLogin) {
+        this.activeIndex = '2';
+        this.$router.push(MAIN_SELF_PATH_MSG)
+      }
+    },
     jumpLoginByUp() {
       this.$router.push(LOGIN_BY_UP_PATH_MSG);
     },
     jumpRegedit() {
       this.$router.push(REGEDIT_PATH_MSG);
+    },
+    beforeMount () {
+      //有token值就是登录？
+      let user = localStorage.getItem("user");
+      if( user === null ) {
+        this.$store.state.isLogin = false;
+      } else {
+        this.$store.state.isLogin = true;
+      }
+
     }
   }
 }
@@ -78,4 +85,65 @@ export default {
 
 
 <style scoped>
+  .mainHeader {
+    display: flex;
+    align-content: center;
+    justify-content: end;
+    background-color: greenyellow;
+    height: 60px;
+  }
+
+  .userImage {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .leftLoginDiv {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .el-side {
+    height: 80%;
+  }
+
+  .mainContentDiv {
+    width: 100%;
+    height: calc(100% - 60px);
+  }
+
+  .mainContainer {
+    height: 100%;
+  }
+
+  .mainContentDiv .el-main {
+    padding: 10px;
+  }
+
+  .userBg {
+    width: 50px;
+    height: 50px;
+    background-size: cover;
+    border-radius: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-origin: border-box;
+    background-image: url("https://tse1-mm.cn.bing.net/th/id/OIP-C.i0PxkbYvoZKnJbU4U0vJHQHaEK?rs=1&pid=ImgDetMain");
+    margin-top: 5px;
+  }
+
+  .loginOrRegisterLink {
+    text-decoration: none;
+    vertical-align: middle;
+    height: 60px;
+    line-height: 60px;
+  }
+
+  .loginOrRegisterLink:hover {
+    text-decoration: none;
+    color: rgb(222, 62, 62);
+  }
+
 </style>

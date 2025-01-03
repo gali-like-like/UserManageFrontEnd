@@ -41,7 +41,6 @@
   </el-row>
   <el-row :gutter="20" justify="center" style="width:100%;height:20px" align="bottom">
     <el-col :span="6">
-      <el-link href="https://beian.miit.gov.cn/" :underline="false" target="_blank">备案号:湘ICP备2024076853号</el-link>
     </el-col>
   </el-row>
 </template>
@@ -59,7 +58,11 @@
 <script>
 //完成 将password,account字段用vuex管理
 import {Avatar, Lock} from "@element-plus/icons-vue";
-import {LOGIN_BY_PHONE_PATH_MSG, MAIN_INDEX_PATH_MSG, REGEDIT_PATH_MSG} from "@/ConstMsg/CommonMsg";
+import {
+  LOGIN_BY_PHONE_PATH_MSG,
+  MAIN_USERS_PATH_MSG,
+  REGEDIT_PATH_MSG
+} from "@/ConstMsg/CommonMsg";
 import axios from "axios";
 import CryptoJS from  "crypto-js"
 import {encryptMessage,open} from "@/ConstMsg/NormalMethod";
@@ -91,11 +94,12 @@ export default {
         if (res.data.code === 1) {
           console.log(res.data.data);
           open(res.data.msg,"success");
+          // 存储用户信息
           localStorage.setItem("user",res.data.data);
           if (this.isSave) {
             localStorage.setItem("password",encryptMessage(this.$store.state.userInfo.password))
           }
-          this.$router.push(MAIN_INDEX_PATH_MSG);
+          this.$router.push(MAIN_USERS_PATH_MSG);
         }
         else {
           open(res.data.msg,"warning");

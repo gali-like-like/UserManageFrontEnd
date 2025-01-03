@@ -1,5 +1,5 @@
 import { createRouter,createWebHashHistory } from 'vue-router'
-import {LOGIN_BY_UP_PATH_MSG} from "@/ConstMsg/CommonMsg";
+import { MAIN_USERS_PATH_MSG } from "@/ConstMsg/CommonMsg";
 const routes = [
     {
         path: '/main',
@@ -24,8 +24,12 @@ const routes = [
         component:() => import('../view/MainView.vue'),
         children: [
             {
-                path:"/index/users",
+                path:"users",
                 component:() => import("../view/SelectPageView.vue")
+            },
+            {
+                path:"self",
+                component:() => import('../view/SelfInfoView.vue')
             }
         ]
     },
@@ -42,7 +46,7 @@ const routes = [
     },
     {
         path: "/",
-        redirect: LOGIN_BY_UP_PATH_MSG,
+        redirect: MAIN_USERS_PATH_MSG,
     }
 ]
 
