@@ -8,7 +8,8 @@ const state = () => ({
     role:'超级用户',
     code:null,
     image:"",
-    isLogin:""
+    isLogin:"",
+    birthDay:null
 });
 
 const mutations = {

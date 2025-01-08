@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="20" justify="center" class="rows">
     <el-col :span="6">
-      <el-input type="text" placeholder="请输入用户账号" v-model="$store.state.userInfo.username" clearable>
+      <el-input type="text" placeholder="请输入用户账号" v-model="this.$store.state.userInfo.username" clearable>
         <template #prefix>
           <el-icon>
             <Avatar />
@@ -12,7 +12,7 @@
   </el-row>
   <el-row :gutter="20" justify="center" class="rows">
     <el-col :span="6">
-      <el-input type="password" placeholder="请输入密码" show-password v-model="$store.state.userInfo.password">
+      <el-input type="password" placeholder="请输入密码" show-password v-model="this.$store.state.userInfo.password">
         <template #prefix>
           <el-icon>
             <Lock />
@@ -99,6 +99,7 @@ export default {
           if (this.isSave) {
             localStorage.setItem("password",encryptMessage(this.$store.state.userInfo.password))
           }
+          console.log(`username:${this.$store.state.userInfo.username}`);
           this.$router.push(MAIN_USERS_PATH_MSG);
         }
         else {

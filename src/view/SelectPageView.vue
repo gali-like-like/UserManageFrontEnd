@@ -2,8 +2,8 @@
 import axios from "axios";
 import {open} from "@/ConstMsg/NormalMethod";
 import {LOGIN_BY_UP_PATH_MSG} from "@/ConstMsg/CommonMsg";
-import {ElMessage} from "element-plus";
-
+// import {LOGIN_BY_UP_PATH_MSG} from "@/ConstMsg/CommonMsg";
+// import {ElMessage} from "element-plus";
 export default {
   name: "SelectPageView",
   data() {
@@ -140,9 +140,34 @@ export default {
   beforeMount () {
     console.log(this.form);
     let user = localStorage?.getItem("user");
-    if(!user ) {
-     //没有token时如何处理
+    if(!user) {
+      //没有token时如何处理
+      this.$router.push(LOGIN_BY_UP_PATH_MSG);
       console.log("token不存在");
+    }
+    else if(!this.$store.state.userInfo.username) {
+      this.$router.push(LOGIN_BY_UP_PATH_MSG);
+      console.log("token不存在");
+    }
+    else {
+      //   获取用户头像
+      axios({
+        method:"get",
+        url:this.$store.state.domains.localHost+"/main/user/get_header",
+        params:{
+          username : this.$store.state.userInfo.username
+        },
+        headers:{
+          token : localStorage?.getItem("user")
+        }
+      }).then(res => {
+        let userHeaderUrl = res.data.data;
+        this.$store.state.userInfo.image = userHeaderUrl;
+        console.log(`用户头像:${this.$store.state.userInfo.image}`);
+      }).catch(e => {
+        console.log(e.message);
+        open("获取头像失败","error");
+      })
     }
   }
 }
@@ -164,7 +189,6 @@ export default {
       <el-select
           v-model="this.form.grender"
           placeholder="请输入性别"
-
           style="width: 240px"
       >
         <el-option

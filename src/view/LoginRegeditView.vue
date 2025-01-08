@@ -35,7 +35,6 @@ export default {
 body {
   border: 0;
   padding:0;
-  background: linear-gradient(to right,#E7E7FF,#5A3D8D);
   margin: 0;
   width: 100vw;
   height: 100vh;

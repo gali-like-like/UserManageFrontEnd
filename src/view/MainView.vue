@@ -2,9 +2,10 @@
   <el-container class="mainContainer">
     <el-header class="mainHeader">
       <div class="leftLoginDiv">
-        <a v-if="!isLogin" @click="jumpLoginByUp" class="loginOrRegisterLink">请先登录</a>
-        <a v-if="!isLogin" @click="jumpRegedit" class="loginOrRegisterLink">注册</a>
-        <div v-else class="userBg" @click="jumpSelfInfo"></div>
+        <a v-if="!$store.state.userInfo.isLogin" @click="jumpLoginByUp" class="loginOrRegisterLink">请先登录</a>
+        <a v-if="!$store.state.userInfo.isLogin" @click="jumpRegedit" class="loginOrRegisterLink">注册</a>
+        <img v-else :src="$store.state.userInfo.image" alt="头像" @click="jumpSelfInfo" class="userBg">
+<!--        <div v-else class="userBg" @click="jumpSelfInfo"></div>-->
       </div>
     </el-header>
     <el-container class="mainContentDiv">
@@ -68,18 +69,21 @@ export default {
     },
     jumpRegedit() {
       this.$router.push(REGEDIT_PATH_MSG);
-    },
-    beforeMount () {
-      //有token值就是登录？
-      let user = localStorage.getItem("user");
-      if( user === null ) {
-        this.$store.state.isLogin = false;
-      } else {
-        this.$store.state.isLogin = true;
-      }
-
+    }
+  },
+  //生命周期不在method里面
+  beforeMount () {
+    //有token并且有username为登录中
+    let user = localStorage.getItem("user");
+    console.log( user );
+    console.log(`username : ${this.$store.state.userInfo.username}`);
+    if( user !== null && this.$store.state.userInfo.username) {
+      this.$store.state.userInfo.isLogin = true;
+    } else {
+      this.$store.state.userInfo.isLogin = false;
     }
   }
+
 }
 </script>
 
@@ -116,6 +120,7 @@ export default {
 
   .mainContainer {
     height: 100%;
+    width: 1200px;
   }
 
   .mainContentDiv .el-main {
@@ -125,13 +130,9 @@ export default {
   .userBg {
     width: 50px;
     height: 50px;
-    background-size: cover;
     border-radius: 50%;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-origin: border-box;
-    background-image: url("https://tse1-mm.cn.bing.net/th/id/OIP-C.i0PxkbYvoZKnJbU4U0vJHQHaEK?rs=1&pid=ImgDetMain");
     margin-top: 5px;
+    line-height: 50px;
   }
 
   .loginOrRegisterLink {
@@ -144,6 +145,13 @@ export default {
   .loginOrRegisterLink:hover {
     text-decoration: none;
     color: rgb(222, 62, 62);
+  }
+
+  body {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-content: flex-start;
   }
 
 </style>

@@ -12,3 +12,6 @@ export function encryptMessage(msg) {
     return encryptMsg;
 }
 
+export function updateHeader() {
+
+}
